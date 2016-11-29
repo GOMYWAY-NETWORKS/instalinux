@@ -1,0 +1,19 @@
+# clearpart [ --linux | --all ] [--drives] [--initlabel] - removes existing partitions (optional)
+clearpart --all --initlabel
+# initialize partition tables if invalid partitions exist.
+zerombr yes
+#  Follow the link above for details on how to override with lilo and additional
+#  bootloader paramater information
+# bootloader [--append] --location= {mbr/partition/none} [-password=mypass] [--md5pass=mypass] [--useLilo] [--linear] [--nolinear] [--lba32]
+bootloader --location=mbr
+# part {mntpoint} --size {size} [--grow] [--onpart {partc}] [--ondisk {disk}] [--onprimary {N}] [--asprimary {N}]
+# The default example should get you started and should be considered
+# the minimum.  Other examples include:
+# part / --size 500 --grow --ondisk hda #fill first IDE disk with / filesys
+# part / --size 500 --grow --ondisk hdb #fill second IDE disk with / filesys
+# part /opt --size 200 --onpart sdc2 #200M /opt on 3rd scsi disk partition 2
+# note: some combinations cannot be used with the "clearpart" directive above
+#  NOTE: The fstype of ext3 is default for / - ext2 with journalling
+part / --fstype ext3 --size 1500 --grow
+part /boot --fstype ext2 --size 75
+part swap --size 512
